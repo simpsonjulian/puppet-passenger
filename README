@@ -1,0 +1,1 @@
+This module installs Phusion Passenger on Ubuntu Hardy Heron (LTS, the version that they support until 2013).  It uses Debian packages for Passenger and Rubygems kindly supplied by the gents at Brightbox.  Say 'thank you' to them, they put a lot of effort into that.

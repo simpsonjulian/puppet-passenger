@@ -17,7 +17,7 @@ class apache::passenger {
 	}
   
   exec { 
-		"apt_get_update":
+		"apt get update":
 		  command => "/usr/bin/apt-get update",
 		  require => File["brightbox apt source"],
   	  subscribe => File["brightbox apt source"],
@@ -25,12 +25,16 @@ class apache::passenger {
    	}
   
   package { 
-		"libapache2-mod-passenger":
+		'libapache2-mod-passenger':
 		  ensure => installed,
-		  require => Exec["apt_get_update"];
-    'rubygems': ensure => present;
-    "ruby1.8-dev": ensure => present;
-    "build-essential": ensure => present;
+		  require => Exec["apt get update"];
+    'rubygems': 
+      ensure => '1.3.1-2ubuntu1~bbox1',
+  		require => Exec["apt get update"];
+    'ruby1.8-dev': ensure => present;
+    'build-essential': ensure => present;
+    'fastthread': ensure => present, provider => gem;
+    'rails': ensure => '2.3.2', provider => gem;
   }
 }
 node socks { include apache::passenger }

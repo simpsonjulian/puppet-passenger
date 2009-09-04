@@ -34,7 +34,7 @@ class apache::passenger {
     'ruby1.8-dev': ensure => present;
     'build-essential': ensure => present;
     'fastthread': ensure => present, provider => gem;
-    'rails': ensure => '2.3.2', provider => gem;
+    'rails': ensure => '2.3.4', provider => gem;
   }
 }
 node socks { include apache::passenger }

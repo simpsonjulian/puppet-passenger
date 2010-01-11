@@ -5,7 +5,8 @@ class apache::passenger {
       path => '/etc/apt/sources.list.d/brightbox.list',
       ensure => present,
       content => 'deb http://apt.brightbox.net hardy main',
-      require => Exec["brightbox deb key"];
+      require => Exec["brightbox deb key"],
+      notify => Exec["apt get update"];
     
   }
   exec {
@@ -16,19 +17,17 @@ class apache::passenger {
   
   }
   
-  exec { 
-    "apt get update":
-      command => "/usr/bin/apt-get update",
-      require => File["brightbox apt source"],
-      subscribe => File["brightbox apt source"],
-      refreshonly => true;
-     }
-  
   package { 
      'libapache2-mod-passenger':
        ensure => installed,
        require => Exec["apt get update"];
-    'fastthread': ensure => present, provider => gem;
-    'rails': ensure => '2.3.4', provider => gem;
+    'fastthread': 
+       require => Package["rubygems"],
+       ensure => present,
+       provider => gem;
+    'rails': 
+       require => Package["rubygems"],
+       ensure => '2.3.4', 
+       provider => gem;
   }
 }
